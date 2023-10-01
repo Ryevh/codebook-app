@@ -1,7 +1,6 @@
 import { Hero } from "./components/Hero";
 import { FeaturedProducts } from "./components/FeaturedProducts";
 import { Testimonials } from "./components/Testimonials";
-
 import { useTitle } from "../../hooks/useTitle";
 import { Faq } from "./components/Faq";
 
