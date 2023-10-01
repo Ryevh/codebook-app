@@ -27,6 +27,27 @@ export const Login = () => {
     }
   }
 
+  async function handleLoginGuest() {
+    // email.current.value = import.meta.env.VITE_APP_GUEST_LOGIN;
+    // password.current.value = import.meta.env.VITE_APP_GUEST_PASSWORD;
+    email.current.value = "guest@examle.com";
+    password.current.value = "learnreact";
+
+    try {
+      const authDetail = {
+        email: email.current.value,
+        password: password.current.value,
+      };
+      const data = await login(authDetail);
+      data.accessToken ? navigate("/products") : toast.error(data);
+    } catch (error) {
+      toast.error(error.message, {
+        closeButton: true,
+        position: "bottom-center",
+      });
+    }
+  }
+
   return (
     <main>
       <section>
@@ -47,7 +68,7 @@ export const Login = () => {
             type="email"
             id="email"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="enter your email"
+            placeholder="shubham@example.com"
             required
             autoComplete="off"
           />
@@ -74,7 +95,12 @@ export const Login = () => {
           Log In
         </button>
       </form>
-      {/* <button className="mt-3 cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login As Guest</button> */}
+      <button
+        onClick={handleLoginGuest}
+        className="mt-3 cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-3 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+      >
+        Login As Guest
+      </button>
     </main>
   );
 };
