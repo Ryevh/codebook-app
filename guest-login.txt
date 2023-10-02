@@ -1,0 +1,137 @@
+. ==============================
+. SETUP 'LOGIN AS GUEST'
+. ==============================
+
+Lets setup LOGIN AS GUEST BEHAVIOUR 
+
+We need to setup a guest account. 
+
+Lets setup 'dev' branch on your 'main' branch of your GitHub repository for current application 'codebook-app'. 
+
+Lets implement guest account on 'dev' branch to test it localy & then push it to our main application & deploy it
+
+1. TARGET PROJECT FOLDER TO OPEN INTEGRATED TERMINAL TO RUN FOLLOWING COMMANDS 
+
+- RUN COMMAND TO MOVE TO 'DEV' BRANCH 
+...............................
+git checkout -b dev
+
+- RUN COMMANDS TO PUSH ALL OF OUR APPLICATION SYNTAX CODE TO 'DEV' BRANCH 
+...............................
+git add .
+git commit -m "Codebook project"
+git push origin dev
+
+- REFRESH PAGE OF YOUR GITHUB REPOSITORY ACCOUNT 
+
+# NOTE: IN RESULT YOU SHOULD SEE 'DEV' BRANCH BELOW 'MAIN' BRANCH 
+
+- IF YOU NEED TO RUN JSON SERVER PROGRAM TO OPEN UP BACKEND SERVER SIDE TO ACCESS TO OUR CUSTOM HARD CODED API OBJECT DATA DEFINED IN '/data/db.json' & 'data/routes.json' FILES THEN MAKE SURE THAT PROPER SCRIPTS OBJECT PROPERTY IS DEFINED 
+
+// package.json
+// ............
+"scripts": {
+  # ../..
+  "server": "json-server data/db.json -m ./node_modules/json-server-auth -r data/routes.json --port 8000"
+},
+
+- RUN COMMAND TO OPEN UP THE INSTALLED LOCAL BACKEND JSON SERVER SIDE 
+...............................
+npm run server
+
+- TARGET PROJECT FOLDER AGAIN TO RUN FOLLOWING COMMAND 
+
+- RUN COMMAND TO OPEN LOCAL SERVER TO OPEN OUR APPLICATION
+...............................
+npm run dev
+
+- PRESS KEYS ON KEYBOARD TO CLOSE LOCAL SERVERS FROM RUNNING WHEN YOU WANT TO STOP APPLICATION RUN 
+...............................
+ctrl c 
+
+2. CREATE SEPARATE NEW FILE '.env' TO DEFINE ENVIRONMENT GLOBAL VARIABLES 
+
+// .env 
+// ....
+VITE_APP_HOST = http://localhost:8000
+
+3. SETUP TO IGNORE '.env' FILE IN THE '.gitignore' FILE SO IT WILL NOT BE PUSHED TO THE GIT REPOSITORY 
+
+// .gitignore
+// ..........
+.env
+# ../..
+
+# NOTE: IN RESULT OUR '.env' FILE WILL BE IGNORED & NOT TO BE PUSHED TO THE GIT REPOSITORY 
+
+4. SETUP REFERENCE TO THE ENVIRONMENT GLOBAL VARIABLE TO ACCESS/USE IT IN SERVICES FILES THAT FETCH API DATA FROM THE BACKEND SERVER SIDE 
+
+- SETUP HTTP API REQUEST CALLS 
+
+// src/services/authSevice.jsx
+// ............
+export async function login(authDetail) {
+  # ../..
+  const response = await fetch(
+    `${import.meta.env.VITE_APP_HOST}/login`,
+    requestOptions
+  );
+
+export async function register(authDetail) {
+  # ../..
+  const response = await fetch(
+    `${import.meta.env.VITE_APP_HOST}/register`,
+    requestOptions
+  );
+  
+- SETUP HTTP API REQUEST CALLS 
+
+// src/services/dataSevice.jsx
+// ............
+export async function getUser() {
+  # ../..
+  const response = await fetch(
+    `${import.meta.env.VITE_APP_HOST}/600/users/${browserData.cbid}`,
+    requestOptions
+  );
+
+export async function getUserOrders() {
+  # ../..
+  const response = await fetch(
+    `${import.meta.env.VITE_APP_HOST}/660/orders?user.id=${browserData.cbid}`,
+    requestOptions
+  );
+
+export async function createOrder(cartList, total, user) {
+  # ../..
+  const response = await fetch(
+    `${import.meta.env.VITE_APP_HOST}/660/orders`,
+    requestOptions
+  );
+
+- SETUP HTTP API REQUEST CALLS 
+
+// src/services/productSevice.jsx
+// ............
+export async function getProductList(searchTerm) {
+  const response = await fetch(
+    `${import.meta.env.VITE_APP_HOST}/444/products?name_like=${
+      searchTerm ? searchTerm : ""
+    }`
+  );
+
+export async function getProduct(id) {
+  const response = await fetch(
+    `${import.meta.env.VITE_APP_HOST}/444/products/${id}`
+  );
+
+export async function getFeaturedList() {
+  const response = await fetch(
+    `${import.meta.env.VITE_APP_HOST}/444/featured_products`
+  );
+
+# NOTE: IN RESULT OUR API URL DOMAIN NAME IS STORED SEPARATELY IN THE ENVIRONMENT VARIABLE IN ONE PLACE FOR BETTER ACCESS/CHANGE/UPDATE WITH A NEW API URL VALUE 
+
+# NOTE: THIS 'env' FILE WILL NOT BE PUSHED TO THE GIT REPOSITORY & THIS WAY OUR API DOMAIN URL LINK WILL BE PROTECTED AND WE CAN PROTECT API KEYS & ANY OTHER VALUES THAT SHOULD NOT BE VISIBLE FOR EVERY ONE 
+
+NOTE: UP NEXT IS TO SETUP DEPLOYMENT BEHAVIOUR 

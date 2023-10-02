@@ -30,7 +30,7 @@ export const ProductsList = () => {
       }
     }
     fetchProducts();
-  }, [searchTerm]); //eslint-disable-line
+  }, [searchTerm]);
 
   return (
     <main>
